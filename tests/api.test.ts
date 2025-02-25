@@ -17,7 +17,7 @@ test('create new object', async ({ request, baseURL }) => {
       year: 2019,
       price: 1800.00,
       "CPU model": "M1",
-      "Hard disk size": "15 TB"
+      "Hard disk size": "20 TB"
     }
   };
 

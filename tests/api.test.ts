@@ -1,11 +1,14 @@
 import { test, expect } from '@playwright/test';
 
+
+
 test('GET All Objects', async ({ request, baseURL }) => {
   const response = await request.get(`${baseURL}/objects`);
   expect(response.status()).toBe(200);
   const data = await response.json();
   console.log(data);
 });
+
 
 
 let createdObjectId; 
@@ -20,6 +23,7 @@ test('create new object', async ({ request, baseURL }) => {
       "Hard disk size": "20 TB"
     }
   };
+  
 
   const response = await request.post(`${baseURL}/objects`, {
     data: payload
@@ -30,13 +34,15 @@ test('create new object', async ({ request, baseURL }) => {
   const responseData = await response.json();
   console.log(responseData);
 
-  expect(responseData).toHaveProperty('id');
   expect(responseData.name).toBe(payload.name);
+
+  expect(responseData.data.year).toBe(payload.data.year);
+  expect(responseData.data.price).toBe(payload.data.price);
+  expect(responseData.data["CPU model"]).toBe(payload.data["CPU model"]);
+  expect(responseData.data["Hard disk size"]).toBe(payload.data["Hard disk size"]);
 
   createdObjectId = responseData.id; 
 });
-
-
 
 
 test('GET specific object', async ({ request, baseURL }) => {
@@ -48,6 +54,7 @@ test('GET specific object', async ({ request, baseURL }) => {
 
   expect(data.id).toBe(createdObjectId);
 });
+
 
 
 test('update object', async ({ request, baseURL }) => {
@@ -73,6 +80,11 @@ test('update object', async ({ request, baseURL }) => {
   expect(responseData).toHaveProperty('id');
   expect(responseData).toHaveProperty('updatedAt');
   expect(responseData.name).toBe(payload.name);
+
+  expect(responseData.data.year).toBe(payload.data.year);
+  expect(responseData.data.price).toBe(payload.data.price);
+  expect(responseData.data["CPU model"]).toBe(payload.data["CPU model"]);
+  expect(responseData.data["Hard disk size"]).toBe(payload.data["Hard disk size"]);
 
   createdObjectId = responseData.id; 
 });

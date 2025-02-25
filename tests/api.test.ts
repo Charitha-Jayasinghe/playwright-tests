@@ -15,7 +15,7 @@ test('create new object', async ({ request, baseURL }) => {
     name: "Apple MacBook Pro 16",
     data: {
       year: 2019,
-      price: 1849.99,
+      price: 1800.00,
       "CPU model": "M1",
       "Hard disk size": "15 TB"
     }
@@ -75,4 +75,20 @@ test('update object', async ({ request, baseURL }) => {
   expect(responseData.name).toBe(payload.name);
 
   createdObjectId = responseData.id; 
+});
+
+
+
+test('delete object', async ({ request, baseURL }) => {
+  
+
+  const response = await request.delete(`${baseURL}/objects/${createdObjectId}`);
+  expect(response.status()).toBe(200);
+
+  expect(response.status()).toBe(200);
+
+  const responseData = await response.json();
+  console.log(responseData);
+  expect(responseData.message).toBe(`Object with id = ${createdObjectId} has been deleted.`);
+
 });
